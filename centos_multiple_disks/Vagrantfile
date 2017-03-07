@@ -1,0 +1,13 @@
+file_to_disk = './secondDisk.vdi'
+Vagrant.configure("2") do |c|
+  c.berkshelf.enabled = false if Vagrant.has_plugin?("vagrant-berkshelf")
+  c.vm.box = "bento/centos-7.2"
+  c.vm.hostname = "default-centos-72.vagrantup.com"
+  c.vm.synced_folder ".", "/vagrant", disabled: true
+  c.vm.synced_folder "/home/onyxet/.kitchen/cache", "/tmp/omnibus/cache", create: true
+  c.vm.provider :virtualbox do |p|
+    p.customize ['createhd', '--filename', file_to_disk, '--size', 5 * 1024]
+    p.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', file_to_disk]
+  end
+end
+
