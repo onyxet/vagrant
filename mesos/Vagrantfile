@@ -1,6 +1,7 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
   config.vm.network "public_network"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
   (1..3).each do |i|  
   config.vm.define "mesos-#{i}" do |mesos|
     config.vm.provider "virtualbox" do |mesos|
@@ -15,7 +16,9 @@ Vagrant.configure("2") do |config|
      yum install -y epel-release && \
      yum update systemd && \
      yum groupinstall -y "Development Tools" && \
-     yum install -y apache-maven python-devel java-1.8.0-openjdk-devel zlib-devel libcurl-devel openssl-devel cyrus-sasl-devel cyrus-sasl-md5 apr-devel subversion-devel apr-util-devel
+     yum install -y apache-maven python-devel java-1.8.0-openjdk-devel zlib-devel libcurl-devel openssl-devel cyrus-sasl-devel cyrus-sasl-md5 apr-devel subversion-devel apr-util-devel && \
+     cd /opt && wget http://www.apache.org/dist/mesos/1.2.0/mesos-1.2.0.tar.gz && tar -zxf mesos-1.2.0.tar.gz && mkdir /opt/mesos-1.2.0/build && \
+     cd /opt/mesos-1.2.0/build && ../configure && make && make check && make install
      SHELL
   end
 end

@@ -1,1 +1,1 @@
-{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/onyxet/soft/vagrant/mesos","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
+{}
